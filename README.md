@@ -1,5 +1,5 @@
 <a href="https://innkeeper.parvis.ai/">
-  <img alt="Next.js 15 and App Router-ready AI chatbot." src="app/(chat)/opengraph-image.png">
+  <img alt="Next.js 15 and App Router-ready AI chatbot." src="/public/images/parvis_anim.svg">
   <h1 align="center">Chat SDK</h1>
 </a>
 
