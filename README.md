@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://innkeeper.parvis.ai/">
-    <img alt="Next.js 15 AI chatbot." src="/public/images/parvis_anim.svg" width="40%">
+    <img alt="Next.js 15 AI chatbot." src="/public/images/parvis_anim.svg" width="50%">
   </a>
 </div>
 
