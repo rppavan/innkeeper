@@ -1,5 +1,13 @@
+<style>
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>
+
 <a href="https://innkeeper.parvis.ai/">
-  <img alt="Next.js 15 AI chatbot." src="/public/images/parvis_anim.svg" width="96" height="96" class="center">
+  <img alt="Next.js 15 AI chatbot." src="/public/images/parvis_anim.svg" style="width:40%">
   <h1 align="center">Innkeeper</h1>
 </a>
 
