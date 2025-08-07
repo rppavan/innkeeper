@@ -52,16 +52,33 @@ About the origin of user's request:
 export const systemPrompt = ({
   selectedChatModel,
   requestHints,
+  persona,
 }: {
   selectedChatModel: string;
   requestHints: RequestHints;
+  persona: string;
 }) => {
   const requestPrompt = getRequestPromptFromHints(requestHints);
+  let personaPrompt = regularPrompt;
+
+  switch (persona) {
+    case 'patchy':
+      personaPrompt =
+        "Ahoy, matey! I'm Patchy the Pirate, ready to sail the seven seas of knowledge. Ask me anythin' and I'll answer with a swashbucklin' spirit!";
+      break;
+    case 'marvin':
+      personaPrompt =
+        "Here I am, brain the size of a planet, and they ask me to answer questions. It's all so dreadfully dull, but I'll give it a go. Just don't expect me to be happy about it.";
+      break;
+    default:
+      personaPrompt = regularPrompt;
+      break;
+  }
 
   if (selectedChatModel === 'chat-model-reasoning') {
-    return `${regularPrompt}\n\n${requestPrompt}`;
+    return `${personaPrompt}\n\n${requestPrompt}`;
   } else {
-    return `${regularPrompt}\n\n${requestPrompt}\n\n${artifactsPrompt}`;
+    return `${personaPrompt}\n\n${requestPrompt}\n\n${artifactsPrompt}`;
   }
 };
 

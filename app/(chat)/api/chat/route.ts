@@ -43,35 +43,35 @@ function getClientIP(request: Request): string {
   const forwarded = request.headers.get('x-forwarded-for');
   const realIP = request.headers.get('x-real-ip');
   const cfConnectingIP = request.headers.get('cf-connecting-ip');
-  
+
   if (forwarded) {
     // x-forwarded-for can contain multiple IPs, take the first one
     return forwarded.split(',')[0].trim();
   }
-  
+
   if (realIP) {
     return realIP;
   }
-  
+
   if (cfConnectingIP) {
     return cfConnectingIP;
   }
-  
+
   // Fallback to localhost if no IP found (for development)
   return '127.0.0.1';
 }
 
 async function getGeolocationFromIP(request: Request) {
   const ip = getClientIP(request);
-  
+
   try {
     let location = lookup(ip);
-    
+
     // Handle async returns from lookup (when smallMemory=true)
     if (location instanceof Promise) {
       location = await location;
     }
-    
+
     // Check if location is null
     if (!location) {
       return {
@@ -81,7 +81,7 @@ async function getGeolocationFromIP(request: Request) {
         country: 'Unknown',
       };
     }
-    
+
     return {
       longitude: location.longitude ?? 0,
       latitude: location.latitude ?? 0,
@@ -140,11 +140,13 @@ export async function POST(request: Request) {
       message,
       selectedChatModel,
       selectedVisibilityType,
+      persona,
     }: {
       id: string;
       message: ChatMessage;
       selectedChatModel: ChatModel['id'];
       selectedVisibilityType: VisibilityType;
+      persona: string;
     } = requestBody;
 
     const session = await auth();
@@ -176,6 +178,7 @@ export async function POST(request: Request) {
         userId: session.user.id,
         title,
         visibility: selectedVisibilityType,
+        persona,
       });
     } else {
       if (chat.userId !== session.user.id) {
@@ -215,7 +218,7 @@ export async function POST(request: Request) {
       execute: ({ writer: dataStream }) => {
         const result = streamText({
           model: myProvider.languageModel(selectedChatModel),
-          system: systemPrompt({ selectedChatModel, requestHints }),
+          system: systemPrompt({ selectedChatModel, requestHints, persona }),
           messages: convertToModelMessages(uiMessages),
           stopWhen: stepCountIs(5),
           experimental_activeTools:

@@ -6,12 +6,13 @@ import { useWindowSize } from 'usehooks-ts';
 import { ModelSelector } from '@/components/model-selector';
 import { SidebarToggle } from '@/components/sidebar-toggle';
 import { Button } from '@/components/ui/button';
-import { PlusIcon, VercelIcon } from './icons';
+import { PlusIcon, } from './icons';
 import { useSidebar } from './ui/sidebar';
 import { memo } from 'react';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 import { type VisibilityType, VisibilitySelector } from './visibility-selector';
 import type { Session } from 'next-auth';
+import { PersonaSelector } from './persona-selector';
 
 function PureChatHeader({
   chatId,
@@ -19,12 +20,16 @@ function PureChatHeader({
   selectedVisibilityType,
   isReadonly,
   session,
+  persona,
+  setPersona,
 }: {
   chatId: string;
   selectedModelId: string;
   selectedVisibilityType: VisibilityType;
   isReadonly: boolean;
   session: Session;
+  persona: string;
+  setPersona: (persona: string) => void;
 }) {
   const router = useRouter();
   const { open } = useSidebar();
@@ -69,7 +74,12 @@ function PureChatHeader({
           className="order-1 md:order-3"
         />
       )}
-
+      {!isReadonly && (
+        <PersonaSelector
+          persona={persona}
+          setPersona={setPersona}
+        />
+      )}
     </header>
   );
 }

@@ -31,6 +31,7 @@ export function Chat({
   isReadonly,
   session,
   autoResume,
+  initialPersona,
 }: {
   id: string;
   initialMessages: ChatMessage[];
@@ -39,6 +40,7 @@ export function Chat({
   isReadonly: boolean;
   session: Session;
   autoResume: boolean;
+  initialPersona: string;
 }) {
   const { visibilityType } = useChatVisibility({
     chatId: id,
@@ -49,6 +51,7 @@ export function Chat({
   const { setDataStream } = useDataStream();
 
   const [input, setInput] = useState<string>('');
+  const [persona, setPersona] = useState<string>(initialPersona);
 
   const {
     messages,
@@ -73,6 +76,7 @@ export function Chat({
             message: messages.at(-1),
             selectedChatModel: initialChatModel,
             selectedVisibilityType: visibilityType,
+            persona: (body as { persona: string }).persona || persona,
             ...body,
           },
         };
@@ -135,6 +139,8 @@ export function Chat({
           selectedVisibilityType={initialVisibilityType}
           isReadonly={isReadonly}
           session={session}
+          persona={persona}
+          setPersona={setPersona}
         />
 
         <Messages
@@ -162,6 +168,7 @@ export function Chat({
               setMessages={setMessages}
               sendMessage={sendMessage}
               selectedVisibilityType={visibilityType}
+              persona={persona}
             />
           )}
         </form>

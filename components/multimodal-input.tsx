@@ -42,6 +42,7 @@ function PureMultimodalInput({
   sendMessage,
   className,
   selectedVisibilityType,
+  persona,
 }: {
   chatId: string;
   input: string;
@@ -55,6 +56,7 @@ function PureMultimodalInput({
   sendMessage: UseChatHelpers<ChatMessage>['sendMessage'];
   className?: string;
   selectedVisibilityType: VisibilityType;
+  persona: string;
 }) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { width } = useWindowSize();
@@ -125,6 +127,7 @@ function PureMultimodalInput({
           text: input,
         },
       ],
+      persona,
     });
 
     setAttachments([]);
@@ -144,6 +147,7 @@ function PureMultimodalInput({
     setLocalStorageInput,
     width,
     chatId,
+    persona,
   ]);
 
   const uploadFile = async (file: File) => {
@@ -327,6 +331,8 @@ function PureMultimodalInput({
 export const MultimodalInput = memo(
   PureMultimodalInput,
   (prevProps, nextProps) => {
+    if (prevProps.persona !== nextProps.persona) return false;
+
     if (prevProps.input !== nextProps.input) return false;
     if (prevProps.status !== nextProps.status) return false;
     if (!equal(prevProps.attachments, nextProps.attachments)) return false;

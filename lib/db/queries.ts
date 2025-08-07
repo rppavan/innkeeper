@@ -34,11 +34,6 @@ import { generateHashedPassword } from './utils';
 import type { VisibilityType } from '@/components/visibility-selector';
 import { ChatSDKError } from '../errors';
 
-// Optionally, if not using email/pass login, you can
-// use the Drizzle adapter for Auth.js / NextAuth
-// https://authjs.dev/reference/adapter/drizzle
-
-// biome-ignore lint: Forbidden non-null assertion.
 const client = postgres(process.env.POSTGRES_URL!);
 const db = drizzle(client);
 
@@ -85,11 +80,13 @@ export async function saveChat({
   userId,
   title,
   visibility,
+  persona,
 }: {
   id: string;
   userId: string;
   title: string;
   visibility: VisibilityType;
+  persona: string;
 }) {
   try {
     return await db.insert(chat).values({
@@ -98,9 +95,21 @@ export async function saveChat({
       userId,
       title,
       visibility,
+      persona,
     });
   } catch (error) {
     throw new ChatSDKError('bad_request:database', 'Failed to save chat');
+  }
+}
+
+export async function updateChat(
+  id: string,
+  data: { persona: string },
+) {
+  try {
+    return await db.update(chat).set(data).where(eq(chat.id, id));
+  } catch (error) {
+    throw new ChatSDKError('bad_request:database', 'Failed to update chat');
   }
 }
 
