@@ -113,22 +113,29 @@ function PureMultimodalInput({
   const submitForm = useCallback(() => {
     window.history.replaceState({}, '', `/chat/${chatId}`);
 
-    sendMessage({
-      role: 'user',
-      parts: [
-        ...attachments.map((attachment) => ({
-          type: 'file' as const,
-          url: attachment.url,
-          name: attachment.name,
-          mediaType: attachment.contentType,
-        })),
-        {
-          type: 'text',
-          text: input,
+    console.log('MultimodalInput submitForm - sending message with persona:', persona);
+    sendMessage(
+      {
+        role: 'user',
+        parts: [
+          ...attachments.map((attachment) => ({
+            type: 'file' as const,
+            url: attachment.url,
+            name: attachment.name,
+            mediaType: attachment.contentType,
+          })),
+          {
+            type: 'text',
+            text: input,
+          },
+        ],
+      },
+      {
+        body: {
+          persona,
         },
-      ],
-      persona,
-    });
+      }
+    );
 
     setAttachments([]);
     setLocalStorageInput('');
@@ -245,6 +252,7 @@ function PureMultimodalInput({
             sendMessage={sendMessage}
             chatId={chatId}
             selectedVisibilityType={selectedVisibilityType}
+            persona={persona}
           />
         )}
 

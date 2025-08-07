@@ -78,6 +78,7 @@ function PureChatHeader({
         <PersonaSelector
           persona={persona}
           setPersona={setPersona}
+          className="order-1 md:order-4"
         />
       )}
     </header>
@@ -85,5 +86,8 @@ function PureChatHeader({
 }
 
 export const ChatHeader = memo(PureChatHeader, (prevProps, nextProps) => {
-  return prevProps.selectedModelId === nextProps.selectedModelId;
+  return (
+    prevProps.selectedModelId === nextProps.selectedModelId &&
+    prevProps.persona === nextProps.persona
+  );
 });

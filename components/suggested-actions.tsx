@@ -11,12 +11,14 @@ interface SuggestedActionsProps {
   chatId: string;
   sendMessage: UseChatHelpers<ChatMessage>['sendMessage'];
   selectedVisibilityType: VisibilityType;
+  persona: string;
 }
 
 function PureSuggestedActions({
   chatId,
   sendMessage,
   selectedVisibilityType,
+  persona,
 }: SuggestedActionsProps) {
   const suggestedActions = [
     {
@@ -60,10 +62,18 @@ function PureSuggestedActions({
             onClick={async () => {
               window.history.replaceState({}, '', `/chat/${chatId}`);
 
-              sendMessage({
-                role: 'user',
-                parts: [{ type: 'text', text: suggestedAction.action }],
-              });
+              console.log('SuggestedActions - sending message with persona:', persona);
+              sendMessage(
+                {
+                  role: 'user',
+                  parts: [{ type: 'text', text: suggestedAction.action }],
+                },
+                {
+                  body: {
+                    persona,
+                  },
+                }
+              );
             }}
             className="text-left border rounded-xl px-4 py-3.5 text-sm flex-1 gap-1 sm:flex-col w-full h-auto justify-start items-start"
           >
@@ -84,6 +94,7 @@ export const SuggestedActions = memo(
     if (prevProps.chatId !== nextProps.chatId) return false;
     if (prevProps.selectedVisibilityType !== nextProps.selectedVisibilityType)
       return false;
+    if (prevProps.persona !== nextProps.persona) return false;
 
     return true;
   },

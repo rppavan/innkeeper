@@ -53,6 +53,11 @@ export function Chat({
   const [input, setInput] = useState<string>('');
   const [persona, setPersona] = useState<string>(initialPersona);
 
+  // Debug logging for persona changes
+  useEffect(() => {
+    console.log('Chat component - persona state changed to:', persona);
+  }, [persona]);
+
   const {
     messages,
     setMessages,
@@ -70,13 +75,20 @@ export function Chat({
       api: '/api/chat',
       fetch: fetchWithErrorHandlers,
       prepareSendMessagesRequest({ messages, id, body }) {
+        console.log('prepareSendMessagesRequest called with:', { 
+          bodyPersona: body?.persona, 
+          fallbackPersona: persona,
+          finalPersona: body?.persona || persona,
+          currentPersonaState: persona,
+          bodyObject: body
+        });
         return {
           body: {
             id,
             message: messages.at(-1),
             selectedChatModel: initialChatModel,
             selectedVisibilityType: visibilityType,
-            persona: (body as { persona: string }).persona || persona,
+            persona: body?.persona || persona,
             ...body,
           },
         };
@@ -105,15 +117,22 @@ export function Chat({
 
   useEffect(() => {
     if (query && !hasAppendedQuery) {
-      sendMessage({
-        role: 'user' as const,
-        parts: [{ type: 'text', text: query }],
-      });
+      sendMessage(
+        {
+          role: 'user' as const,
+          parts: [{ type: 'text', text: query }],
+        },
+        {
+          body: {
+            persona,
+          },
+        }
+      );
 
       setHasAppendedQuery(true);
       window.history.replaceState({}, '', `/chat/${id}`);
     }
-  }, [query, sendMessage, hasAppendedQuery, id]);
+  }, [query, sendMessage, hasAppendedQuery, id, persona]);
 
   const { data: votes } = useSWR<Array<Vote>>(
     messages.length >= 2 ? `/api/vote?chatId=${id}` : null,
@@ -189,6 +208,7 @@ export function Chat({
         votes={votes}
         isReadonly={isReadonly}
         selectedVisibilityType={visibilityType}
+        persona={persona}
       />
     </>
   );

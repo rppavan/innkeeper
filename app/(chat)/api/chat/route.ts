@@ -149,6 +149,8 @@ export async function POST(request: Request) {
       persona: string;
     } = requestBody;
 
+    console.log('API route received persona:', persona);
+
     const session = await auth();
 
     if (!session?.user) {

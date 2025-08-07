@@ -48,11 +48,12 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         <Chat
           id={chat.id}
           initialMessages={uiMessages}
-          initialChatModel={DEFAULT_CHAT_MODEL}
           initialVisibilityType={chat.visibility}
           isReadonly={session?.user?.id !== chat.userId}
           session={session}
           autoResume={true}
+          initialChatModel={DEFAULT_CHAT_MODEL}
+          initialPersona='default'
         />
         <DataStreamHandler />
       </>
@@ -69,6 +70,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         isReadonly={session?.user?.id !== chat.userId}
         session={session}
         autoResume={true}
+        initialPersona='default'
       />
       <DataStreamHandler />
     </>
