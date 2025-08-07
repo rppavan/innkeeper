@@ -1,10 +1,10 @@
 <a href="https://innkeeper.parvis.ai/">
-  <img alt="Next.js 15 and App Router-ready AI chatbot." src="/public/images/parvis_anim.svg">
-  <h1 align="center">Chat SDK</h1>
+  <img alt="Next.js 15 AI chatbot." src="/public/images/parvis_anim.svg" width="96" height="96" class="center">
+  <h1 align="center">Innkeeper</h1>
 </a>
 
 <p align="center">
-    Chat SDK is a free, open-source template built with Next.js and the AI SDK that helps you quickly build powerful chatbot applications.
+    Innkeeper is a personal private project of Apparao Pavan Parwatikar
 </p>
 
 <p align="center">
