@@ -1,15 +1,10 @@
-<style>
-img {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-</style>
+<div align="center">
+  <a href="https://innkeeper.parvis.ai/">
+    <img alt="Next.js 15 AI chatbot." src="/public/images/parvis_anim.svg" width="40%">
+  </a>
+</div>
 
-<a href="https://innkeeper.parvis.ai/">
-  <img alt="Next.js 15 AI chatbot." src="/public/images/parvis_anim.svg" style="width:40%">
-  <h1 align="center">Innkeeper</h1>
-</a>
+<h1 align="center">Innkeeper</h1>
 
 <p align="center">
     Innkeeper is a personal private project of Apparao Pavan Parwatikar
