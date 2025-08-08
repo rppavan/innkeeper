@@ -16,7 +16,7 @@
     "db:pull": "drizzle-kit pull",
     "db:check": "drizzle-kit check",
     "db:up": "drizzle-kit up",
-    "test": "export PLAYWRIGHT=True && pnpm exec playwright test"
+    "test": "pnpm exec test"
   },
   "dependencies": {
     "@ai-sdk/google": "2.0.3",
@@ -85,7 +85,6 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.1.4",
-    "@playwright/test": "^1.54.2",
     "@tailwindcss/postcss": "^4.1.11",
     "@tailwindcss/typography": "^0.5.16",
     "@types/d3-scale": "^4.0.9",
